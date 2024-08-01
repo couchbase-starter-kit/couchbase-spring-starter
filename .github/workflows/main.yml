@@ -1,5 +1,5 @@
 name: Test Couchbase connection
-on: [schedule]
+on: [workflow_dispatch]
 jobs:
   decode-secret:
     runs-on: ubuntu-latest
