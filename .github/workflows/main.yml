@@ -8,7 +8,8 @@ jobs:
       - run: tar -xvzf cbsh-x86_64-unknown-linux-gnu.tar.gz
       - name: Retrieve the secret and decode it to a file
       - env:
-          NUSHELL_CONFIG: ${{ secrets.NUSHELL_CONFIG }}
-        run: echo "$NUSHELL_CONFIG" > config
+          NUSHELL_CONFIG: |
+            ${{ secrets.NUSHELL_CONFIG }}
+      - run: echo "$NUSHELL_CONFIG" > config
       - run: ./cbsh --config-dir . -c cb-env
         shell: bash
