@@ -11,4 +11,3 @@ jobs:
           NUSHELL_CONFIG: |
             ${{ secrets.NUSHELL_CONFIG }}
       - run: ./cbsh --config-dir . -c cb-env
-        shell: bash
