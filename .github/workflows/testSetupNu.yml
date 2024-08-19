@@ -1,0 +1,23 @@
+name: Test setup-nu
+on: [workflow_dispatch]
+defaults:
+  run:
+    shell: cbsh --config-dir . --script {0}
+
+
+jobs:
+  basic-usage:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4.1.7
+    - uses: ldoguin/setup-cbsh@develop
+      with:
+        version: '*'
+        enable-plugins: true
+    - run: echo "$NUSHELL_CONFIG" > config
+      env:
+        NUSHELL_CONFIG: |
+          ${{ secrets.NUSHELL_CONFIG }}
+      shell: bash
+    - run: |
+        cb-env
