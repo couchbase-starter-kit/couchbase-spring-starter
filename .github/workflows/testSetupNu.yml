@@ -9,11 +9,10 @@ jobs:
   basic-usage:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v4.1.7
     - uses: ldoguin/setup-cbsh@develop
       with:
         version: '*'
-        enable-plugins: true
+        enable-plugins: false
     - run: echo "$NUSHELL_CONFIG" > config
       env:
         NUSHELL_CONFIG: |
