@@ -2,8 +2,7 @@ name: Test setup-nu
 on: [workflow_dispatch]
 defaults:
   run:
-    shell: cbsh --config-dir . --script {0}
-
+    shell: cbsh --script {0}
 
 jobs:
   basic-usage:
@@ -13,10 +12,6 @@ jobs:
       with:
         version: '*'
         enable-plugins: false
-    - run: echo "$NUSHELL_CONFIG" > config
-      env:
-        NUSHELL_CONFIG: |
-          ${{ secrets.NUSHELL_CONFIG }}
-      shell: bash
+        config:  ${{ secrets.NUSHELL_CONFIG }}
     - run: |
         cb-env
