@@ -1,4 +1,4 @@
-package com.example;
+package com.example.testcontainers;
 
 import org.testcontainers.couchbase.BucketDefinition;
 import org.testcontainers.utility.DockerImageName;
@@ -10,5 +10,5 @@ public class CouchbaseContainerMetadata {
     public static final BucketDefinition bucketDefinition = new BucketDefinition(BUCKET_NAME);
     public static final DockerImageName COUCHBASE_IMAGE_ENTERPRISE = DockerImageName.parse("couchbase:enterprise")
         .asCompatibleSubstituteFor("couchbase/server")
-        .withTag("7.6.1");
+        .withTag("7.6.2");
 }

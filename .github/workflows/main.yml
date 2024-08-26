@@ -1,13 +1,40 @@
 name: Test Couchbase connection
 on: [workflow_dispatch]
+defaults:
+  run:
+    shell: cbsh --script {0}
+
 jobs:
-  decode-secret:
-    runs-on: ubuntu-latest
+  setup:
+    runs-on: ubuntu-22.04
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+      BUCKET:  ${{ env.BRANCH_NAME }}_${{ env.COUCHBASE_DEFAULT_BUCKET }}
+      SCOPE:  ${{ env.BRANCH_NAME }}_${{ env.COUCHBASE_DEFAULT_SCOPE }}
+      COLLECTION:  ${{ env.BRANCH_NAME }}_${{ env.COUCHBASE_DEFAULT_COLLECTION }}
     steps:
-      - run: wget https://github.com/couchbaselabs/couchbase-shell/releases/download/v0.75.1/cbsh-x86_64-unknown-linux-gnu.tar.gz
-      - run: tar -xvzf cbsh-x86_64-unknown-linux-gnu.tar.gz
-      - run: echo "$NUSHELL_CONFIG" > config
-        env:
-          NUSHELL_CONFIG: |
-            ${{ secrets.NUSHELL_CONFIG }}
-      - run: ./cbsh --config-dir . -c cb-env
+    - name: Checkout ${{ github.event.repository.name }}
+      uses: actions/checkout@v4
+    - uses: actions-rust-lang/setup-rust-toolchain@v1
+    - uses: ldoguin/setup-cbsh@develop
+      with:
+        version: 'source'
+        enable-plugins: ''
+        config:  ${{ secrets.CBSHELL_CONFIG }}
+    - name: Setup Couchbase Bucket, Scope, Collection
+      run: |
+          source ${{ github.workspace }}/scripts/setupTest.nu
+          setupTest $env.BUCKET $env.SCOPE $env.COLLECTION
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+          java-version: '17'
+          distribution: 'temurin'
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
+    - name: Execute Gradle build
+      run: ./gradlew build
+    - name: Tear Down Bucket
+      run: |
+        buckets drop $env.BUCKET
+

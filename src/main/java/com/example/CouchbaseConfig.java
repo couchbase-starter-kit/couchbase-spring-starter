@@ -133,7 +133,7 @@ public class CouchbaseConfig  {
     }
 
     @Bean
-    public Collection colection(Scope scope){
+    public Collection collection(Scope scope){
         return scope.collection(getCollectionName());
     }
 

@@ -1,8 +1,11 @@
-package com.example;
+package com.example.testcontainers;
 
 import com.couchbase.client.java.Collection;
 import com.couchbase.client.java.Scope;
+import com.couchbase.client.java.kv.GetResult;
+
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,12 +17,14 @@ import org.testcontainers.couchbase.CouchbaseService;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static com.example.testcontainers.CouchbaseContainerMetadata.COUCHBASE_IMAGE_ENTERPRISE;
+import static com.example.testcontainers.CouchbaseContainerMetadata.bucketDefinition;
+
 import java.time.Duration;
 
-import static com.example.CouchbaseContainerMetadata.COUCHBASE_IMAGE_ENTERPRISE;
-import static com.example.CouchbaseContainerMetadata.bucketDefinition;
-
-
+/**
+ * This is test will run against a Couchbase instance managed by testcontainers.
+ */
 @SpringBootTest
 @Testcontainers
 class CouchbaseSpringStarterApplicationTests {
@@ -43,6 +48,10 @@ class CouchbaseSpringStarterApplicationTests {
         registry.add("spring.couchbase.connection-string", couchbaseContainer::getConnectionString);
         registry.add("spring.couchbase.username", couchbaseContainer::getUsername);
         registry.add("spring.couchbase.password", couchbaseContainer::getPassword);
+        registry.add("couchbase.useCapella", () -> false);
+        registry.add("couchbase.defaultBucket", () -> "default");
+        registry.add("couchbase.defaultScope", () -> "_default");
+        registry.add("couchbase.defaultCollection", () -> "_default");
     }
 
     @Autowired
@@ -54,9 +63,8 @@ class CouchbaseSpringStarterApplicationTests {
     void contextLoads() throws Exception{
         scope.query("Select * from system:indexes");
         collection.upsert("key", "content");
-        collection.get("key");
-        // sleep to make sure OTEL metrics are sent
-		Thread.sleep(10000);
+        GetResult res = collection.get("key");
+        Assertions.assertNotNull(res.contentAsBytes());
     }
 
 }
