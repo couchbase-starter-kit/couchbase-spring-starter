@@ -34,7 +34,7 @@ class CouchbaseSpringStarterApplicationTests {
             .withCredentials(CouchbaseContainerMetadata.USERNAME, CouchbaseContainerMetadata.PASSWORD)
             .withEnabledServices(CouchbaseService.KV, CouchbaseService.QUERY, CouchbaseService.INDEX, CouchbaseService.SEARCH)
             .withBucket(bucketDefinition)
-            .withStartupAttempts(4)
+            .withStartupAttempts(10)
             .withStartupTimeout(Duration.ofSeconds(90))
             .waitingFor(Wait.forHealthcheck());
 
