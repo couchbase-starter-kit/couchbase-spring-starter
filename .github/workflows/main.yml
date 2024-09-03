@@ -4,14 +4,19 @@ defaults:
   run:
     shell: cbsh --script {0}
 
+env:
+  COUCHBASE_DEFAULT_BUCKET:  spring_{{ github.head_ref || github.ref_name }}_${{ vars.COUCHBASE_DEFAULT_BUCKET }}
+  COUCHBASE_DEFAULT_SCOPE:  ${{ github.head_ref || github.ref_name }}_${{ vars.COUCHBASE_DEFAULT_SCOPE }}
+  COUCHBASE_DEFAULT_COLLECTION:  ${{ github.head_ref || github.ref_name }}_${{ vars.COUCHBASE_DEFAULT_COLLECTION  }}
+  SPRING_COUCHBASE_CONNECTION_STRING: ${{ secrets.COUCHBASE_CONNECTION_STRING }}
+  SPRING_COUCHBASE_USERNAME: ${{ secrets.COUCHBASE_USERNAME }}
+  SPRING_COUCHBASE_PASSWORD: ${{ secrets.COUCHBASE_PASSWORD }}
+  COUCHBASE_USE_CAPELLA: ${{ vars.COUCHBASE_USE_CAPELLA }}
+  COUCHBASE_OTLP_ENABLED: ${{ vars.COUCHBASE_OTLP_ENABLED }}
+
 jobs:
   setup:
     runs-on: ubuntu-22.04
-    env:
-      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-      BUCKET:  ${{ env.BRANCH_NAME }}_${{ env.COUCHBASE_DEFAULT_BUCKET }}
-      SCOPE:  ${{ env.BRANCH_NAME }}_${{ env.COUCHBASE_DEFAULT_SCOPE }}
-      COLLECTION:  ${{ env.BRANCH_NAME }}_${{ env.COUCHBASE_DEFAULT_COLLECTION }}
     steps:
     - name: Checkout ${{ github.event.repository.name }}
       uses: actions/checkout@v4
@@ -19,12 +24,13 @@ jobs:
     - uses: ldoguin/setup-cbsh@develop
       with:
         version: 'source'
+        branch: 'main'
         enable-plugins: ''
         config:  ${{ secrets.CBSHELL_CONFIG }}
     - name: Setup Couchbase Bucket, Scope, Collection
       run: |
           source ${{ github.workspace }}/scripts/setupTest.nu
-          setupTest $env.BUCKET $env.SCOPE $env.COLLECTION
+          setupTest $env.COUCHBASE_DEFAULT_BUCKET $env.COUCHBASE_DEFAULT_SCOPE $env.COUCHBASE_DEFAULT_COLLECTION
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
@@ -36,5 +42,5 @@ jobs:
       run: ./gradlew build
     - name: Tear Down Bucket
       run: |
-        buckets drop $env.BUCKET
+        buckets drop $env.COUCHBASE_DEFAULT_BUCKET
 
