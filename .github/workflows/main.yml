@@ -39,7 +39,8 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
     - name: Execute Gradle build
-      run: ./gradlew build -d
+      run: ./gradlew build
     - name: Tear Down Bucket
       run: |
+        cb-env bucket $env.COUCHBASE_DEFAULT_BUCKET
         scopes drop $env.COUCHBASE_DEFAULT_SCOPE
