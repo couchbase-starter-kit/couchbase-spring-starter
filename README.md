@@ -1,5 +1,5 @@
 # Couchbase Spring Starter Kit
-
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/couchbase-starter-kit/couchbase-spring-starter)
 
 
 ## Configuration
