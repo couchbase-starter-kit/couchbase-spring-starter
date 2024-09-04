@@ -1,4 +1,4 @@
-def setupTest [bucket: string; scope: string; collection: string] {
+def dbSetup [bucket: string; scope: string; collection: string] {
     cb-env | print
     if (buckets| where name == $bucket | is-empty) {buckets create --replicas 1 $bucket 100; print $"Create Bucket ($bucket)"} else {print "Bucket already exist"}
     cb-env bucket $bucket

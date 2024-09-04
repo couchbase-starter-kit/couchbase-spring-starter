@@ -29,8 +29,8 @@ jobs:
         config:  ${{ secrets.CBSHELL_CONFIG }}
     - name: Setup Couchbase Bucket, Scope, Collection
       run: |
-          source ${{ github.workspace }}/scripts/setupTest.nu
-          setupTest $env.COUCHBASE_DEFAULT_BUCKET $env.COUCHBASE_DEFAULT_SCOPE $env.COUCHBASE_DEFAULT_COLLECTION
+          source ${{ github.workspace }}/scripts/dbSetup.nu
+          dbSetup $env.COUCHBASE_DEFAULT_BUCKET $env.COUCHBASE_DEFAULT_SCOPE $env.COUCHBASE_DEFAULT_COLLECTION
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
