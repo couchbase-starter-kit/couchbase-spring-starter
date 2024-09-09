@@ -21,6 +21,7 @@ vscode:
         - "redhat.java"
         - "vscjava.vscode-java-dependency"
         - "vscjava.vscode-java-debug"
+        - "github.vscode-github-actions"
 
 # exposed ports
 ports:
@@ -56,4 +57,46 @@ ports:
 - port: 18095 # Analytics (SSL) (5.5+)
   onOpen: ignore
 - port: 18096 # Eventing (SSL) (5.5+)
+  onOpen: ignore
+- port: 9100
+  onOpen: ignore
+- port: 9101
+  onOpen: ignore
+- port: 9102
+  onOpen: ignore
+- port: 9103
+  onOpen: ignore
+- port: 9105
+  onOpen: ignore
+- port: 9123
+  onOpen: ignore
+- port: 9130
+  onOpen: ignore
+- port: 9998
+  onOpen: ignore
+- port: 9999
+  onOpen: ignore
+- port: 11206
+  onOpen: ignore
+- port: 11209
+  onOpen: ignore
+- port: 11280
+  onOpen: ignore
+- port: 19102
+  onOpen: ignore
+- port: 19130
+  onOpen: ignore
+- port: 21100
+  onOpen: ignore
+- port: 21200
+  onOpen: ignore
+- port: 21300
+  onOpen: ignore
+- port: 33059
+  onOpen: ignore
+- port: 35253
+  onOpen: ignore
+- port: 36031
+  onOpen: ignore
+- port: 44889
   onOpen: ignore
