@@ -1,0 +1,1 @@
+{"cells":[{"kind":1,"language":"markdown","value":"# Select User from Travel Sample"},{"kind":2,"language":"SQL++","value":"SELECT  meta(u).id as id, * from `travel-sample`.`tenant_agent_02`.`users` u where meta(u).id = \"0\" limit 1"}]}
