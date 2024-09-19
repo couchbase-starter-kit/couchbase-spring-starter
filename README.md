@@ -1,4 +1,5 @@
 # Couchbase Spring Starter Kit
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/couchbase-starter-kit/couchbase-spring-starter)
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/couchbase-starter-kit/couchbase-spring-starter)
 
 
@@ -20,7 +21,7 @@
 
 ## Unit Tests
 
-Unit tests are ran with TestContainers. 
+Unit test in the `com.exqmple.integration` package are running against a cluster configured with env variables. Unit tests in the `com.exqmple.testcontainers` package are running with a Test Containers.
 
 ## OpenTelemetry tests
 
